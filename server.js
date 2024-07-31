@@ -1,18 +1,20 @@
 const express = require('express');
+// Initialize Express
 const app = express();
-const path = require('path');
-
-
-const userRoutes = require('./routes/htmlroute');
-app.use(userRoutes); 
-
-// Set up middleware
-app.use(express.json());
+// Middleware for parsing JSON request bodies
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static('public'));
 
-// Import and use routes
-const apiRoutes = require('./routes/notes');
-app.use(apiRoutes);
+// Import routes
+
+const apiRoutes = require('./routes/api-routes');
+const htmlRoutes = require('./routes/htmlroutes');
+
+// Use routes
+
+app.use('/api', apiRoutes);
+app.use('/', htmlRoutes);
 
 
 // Start the server
